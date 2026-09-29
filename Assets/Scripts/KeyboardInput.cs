@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 public class KeyboardInput : MonoBehaviour
 {
     public Corgi corgi;
+    public PoopPlacer poopPlacer;
     public void Update()
     {
         // gets new button pressed
@@ -27,6 +28,11 @@ public class KeyboardInput : MonoBehaviour
         {
             // right
             corgi.Move(Vector2.right);
+        }
+
+        if (keyboard.spaceKey.wasPressedThisFrame)
+        {
+            poopPlacer.Place(corgi.GetPosition());
         }
 
         // move corgi
