@@ -1,0 +1,34 @@
+using UnityEngine;
+using System.Collections;
+
+public class TimedObjectPlacer : MonoBehaviour
+{
+    public GameObject BonePrefab;
+    
+    private bool isOkToCreate = true;
+
+    public float MinimumSecondsToWait = 1f;
+    public float MaximumSecondsToWait = 3f;
+    
+    public void Update()
+    {
+        if (isOkToCreate)
+        {
+            StartCoroutine(CountdownUntilCreation());
+        }
+    }
+    
+
+    IEnumerator CountdownUntilCreation()
+    {
+        isOkToCreate = false;
+        float secondsToWait = Random.Range(MinimumSecondsToWait, MaximumSecondsToWait);
+        yield return new WaitForSeconds(secondsToWait);
+        Place();
+        isOkToCreate = true;
+    }
+    public void Place()
+    {
+        Instantiate(BonePrefab, SpawnTools.RandomLocationWorldSpace(), Quaternion.identity);
+    }
+}

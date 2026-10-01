@@ -1,18 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
-public class Poop : MonoBehaviour
+public class Poop : TimedObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        StartCoroutine(CountdownUntilDeath());
-    }
+        public void Start()
+        {
+                secondsOnScreen = GameParameters.PoopSecondsOnScreen;
+                base.Start();  
+        }
+        
 
-    IEnumerator CountdownUntilDeath()
-    {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
-    }
-    
 }
