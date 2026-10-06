@@ -14,4 +14,7 @@ public static class GameParameters
     public static float BoneSecondsOnScreen = 7f;
     public static float BoneMinimumSecondsToWait = 1f;
     public static float BoneMaximumSecondsToWait = 3f;
+    public static float WaterBowlSecondsOnScreen = 3f;
+    public static float WaterBowlMinimumSecondsToWait = 1f;
+    public static float WaterBowlMaximumSecondsToWait = 3f;
 }

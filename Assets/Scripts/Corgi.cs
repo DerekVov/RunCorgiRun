@@ -23,6 +23,20 @@ public class Corgi : MonoBehaviour
     {
         return transform.position;
     }
+    
+
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Beer")
+        {
+            print("uhhh, alcohol");
+        }
+
+        if (other.gameObject.tag == "Bone")
+        {
+            print("mmmm, bone");
+        }
+    }
     public void FaceCorrectDirection(Vector2 direction)
     {
         if (direction.x > 0)
