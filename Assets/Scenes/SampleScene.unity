@@ -267,6 +267,8 @@ GameObject:
   - component: {fileID: 606618264}
   - component: {fileID: 606618263}
   - component: {fileID: 606618262}
+  - component: {fileID: 606618266}
+  - component: {fileID: 606618265}
   m_Layer: 0
   m_Name: Corgi
   m_TagString: Untagged
@@ -287,6 +289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Corgi
   corgiSpriteRenderer: {fileID: 606618263}
+  DrunkSprite: {fileID: 0}
+  SoberSprite: {fileID: 0}
 --- !u!212 &606618263
 SpriteRenderer:
   serializedVersion: 3
@@ -362,6 +366,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &606618265
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606618261}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &606618266
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606618261}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.28, y: 1.28}
+    newSize: {x: 1.28, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.28, y: 1.28}
+  m_EdgeRadius: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +551,8 @@ GameObject:
   - component: {fileID: 847256685}
   - component: {fileID: 847256684}
   - component: {fileID: 847256686}
+  - component: {fileID: 847256687}
+  - component: {fileID: 847256688}
   m_Layer: 0
   m_Name: Placer
   m_TagString: Untagged
@@ -521,7 +600,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6915a464add43ada7b0426ba241a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeerPlacer
-  BeerPrefab: {fileID: 4286686090886994426, guid: 9464efa76c59140478ef0ca00e031b30, type: 3}
+  BonePrefab: {fileID: 4286686090886994426, guid: 9464efa76c59140478ef0ca00e031b30, type: 3}
+  MinimumSecondsToWait: 1
+  MaximumSecondsToWait: 3
+--- !u!114 &847256687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847256683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2d68204c88e45949ba251a15c3a8ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BonePlacer
+  BonePrefab: {fileID: 8170848118778340901, guid: 35f10b79b270e4de8a06b8916cb7922d, type: 3}
+  MinimumSecondsToWait: 1
+  MaximumSecondsToWait: 3
+--- !u!114 &847256688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847256683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d2758e3258c64dcab7a8d759d8ce170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaterBowlPlacer
+  BonePrefab: {fileID: 3303028312634861426, guid: 1edd8b314b37249088d559ebbe8a2b52, type: 3}
+  MinimumSecondsToWait: 1
+  MaximumSecondsToWait: 3
 --- !u!1 &1009217319
 GameObject:
   m_ObjectHideFlags: 0
