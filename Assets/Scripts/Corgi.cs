@@ -7,6 +7,7 @@ public class Corgi : MonoBehaviour
 {
     public Sprite NormalSprite;
     public Sprite DrunkSprite;
+    public UI Ui;
     
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
@@ -128,7 +129,7 @@ public class Corgi : MonoBehaviour
     private void AddPointToScore()
     {
         ScoreKeeper.AddPoint();
-        print("Score is: " + ScoreKeeper.GetScore());
+        Ui.ShowScore();
     }
     
     private void Inebriate()
