@@ -8,6 +8,8 @@ public class Corgi : MonoBehaviour
     public Sprite NormalSprite;
     public Sprite DrunkSprite;
     public UI Ui;
+    public StartScreen StartScreen;
+    
     
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
@@ -29,7 +31,15 @@ public class Corgi : MonoBehaviour
             MoveRandomly();
         }
     }
-    
+
+    public void Reset()
+    {
+        isPlastered = false;
+        isDrunk = false;
+        ChangeToNormalSprite();
+        corgiSpriteRenderer.flipX = false;
+        transform.position = Vector3.zero;
+    }
 
     private void MoveRandomly()
     {
@@ -60,6 +70,10 @@ public class Corgi : MonoBehaviour
         }
     }
     public void MoveManually(Vector2 direction){
+        if (!StartScreen.isPlaying())
+        {
+            return;
+        }
         if (isPlastered)
         {
             return;
