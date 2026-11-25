@@ -10,6 +10,7 @@ public class StartScreen : MonoBehaviour
     public MoonshinePlacer  MoonshinePlacer;
     public WaterBowlPlacer WaterBowlPlacer;
     public Corgi Corgi;
+    public Music Music;
 
     private bool isGameRunning = false;
 
@@ -17,6 +18,7 @@ public class StartScreen : MonoBehaviour
     {
         Ui.HideGameOverScreen();
         Ui.ShowStartScreen();
+        Music.PlayMenuMusic();
     }
     public void Update()
     {
@@ -65,6 +67,7 @@ public class StartScreen : MonoBehaviour
         ScoreKeeper.ResetScore();
         Ui.ResetScore();
         Corgi.Reset();
+        Music.PlayGameMusic();
     }
 
     private void StartPlacers()
@@ -83,5 +86,6 @@ public class StartScreen : MonoBehaviour
         isGameRunning = false;
         Ui.ShowGameOverScreen();
         StopPlacing();
+        Music.PlayMenuMusic();
     }
 }
