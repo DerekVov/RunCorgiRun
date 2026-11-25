@@ -11,6 +11,7 @@ public class StartScreen : MonoBehaviour
     public WaterBowlPlacer WaterBowlPlacer;
     public Corgi Corgi;
     public Music Music;
+    public Sounds Sounds;
 
     private bool isGameRunning = false;
 
@@ -55,7 +56,7 @@ public class StartScreen : MonoBehaviour
     {
         
         Ui.HideStartScreen();
-        
+        Sounds.PlayPoopSound();
         InitializeGame();
     }
 
@@ -78,7 +79,7 @@ public class StartScreen : MonoBehaviour
     public void OnPlayAgainButtonClicked()
     {
         Ui.HideGameOverScreen();
-        
+        Sounds.PlayPoopSound();
         InitializeGame();
     }
     public void OnTimerDone()
