@@ -1,80 +1,162 @@
-using UnityEngine;
+using System;
 using System.Collections;
-using UnityEditorInternal;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Corgi : MonoBehaviour
 {
-    public SpriteRenderer corgiSpriteRenderer;
+    public Sprite NormalSprite;
     public Sprite DrunkSprite;
-    public Sprite SoberSprite;
+    
+    private SpriteRenderer corgiSpriteRenderer;
+    private Coroutine soberUpCoroutine;
     private bool isDrunk = false;
+    private bool isPlastered = false;
+
+    private int randomMoveCounter = 0;
+    private int lastRandomDirection = 0;
 
     public void Awake()
     {
         corgiSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    public void Update()
+    {
+        if (isPlastered)
+        {
+            MoveRandomly();
+        }
+    }
+    
+
+    private void MoveRandomly()
+    {
+        int direction = lastRandomDirection;
+        
+        if (randomMoveCounter == 0)
+        {
+            // Pick a new direction
+            direction = Random.Range(0, 4);
+            randomMoveCounter = Random.Range(GameParameters.CorgiMinimumRandomMoveLength, GameParameters.CorgiMaximumRandomMoveLength);
+            lastRandomDirection = direction;
+        }
+
+        switch (direction)
+        {
+            case 0:
+                Move(new Vector2(1, 0));
+                break;
+            case 1:
+                Move(new Vector2(-1, 0));
+                break;
+            case 2:
+                Move(new Vector2(0, 1));
+                break;
+            case 3:
+                Move(new Vector2(0, -1));
+                break;
+        }
+    }
+    public void MoveManually(Vector2 direction){
+        if (isPlastered)
+        {
+            return;
+        }
+        Move(direction);
+    }
     public void Move(Vector2 direction)
     {
-        direction = ApplyDrunkness(direction);
+        direction = ApplyDrunkenness(direction);
+        
         FaceCorrectDirection(direction);
-        Vector2 movement= direction * GameParameters.CorgiMoveSpeed * Time.deltaTime;
+        
+        Vector2 movement = direction * GameParameters.CorgiMoveSpeed * Time.deltaTime;
         corgiSpriteRenderer.transform.Translate(movement);
-
+        
         corgiSpriteRenderer.transform.position = SpriteTools.ConstrainToScreen(corgiSpriteRenderer);
     }
 
+    private Vector2 ApplyDrunkenness(Vector2 direction)
+    {
+        if (!isDrunk)
+        {
+            return direction;
+        }
+
+        direction.x = direction.x * -1;
+        direction.y = direction.y * -1;
+        
+        return direction;
+    }
+    
     public Vector3 GetPosition()
     {
         return transform.position;
     }
 
-
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Moonshine")
+        {
+            Destroy(other.gameObject);
+            GetPlastered();
+        }
+    }
+    
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Beer")
+        if (other.tag == "Beer")
         {
-            getDrunk();
+            GetDrunk();
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "Bone")
+        if (other.tag == "Bone")
         {
+            AddPointToScore();
             Destroy(other.gameObject);
-            ScorePoint();
         }
-        
+
+        if (other.tag == "Pill")
+        {
+            SoberUp();
+            Destroy(other.gameObject);
+        }
     }
 
-    private void ScorePoint()
+    private void AddPointToScore()
     {
-        print("MONEY");
+        ScoreKeeper.AddPoint();
+        print("Score is: " + ScoreKeeper.GetScore());
     }
-
-    private void getDrunk()
+    
+    private void Inebriate()
     {
         ChangeToDrunkSprite();
+        StartSoberingUp();
     }
-
-    private void ChangeToDrunkSprite()
+    
+    private void GetPlastered()
     {
-        corgiSpriteRenderer.sprite = DrunkSprite;
+        isPlastered = true;
+        Inebriate();
+    }
+    
+    private void GetDrunk()
+    {
+        isDrunk = true;
+        Inebriate();
     }
 
     private void StartSoberingUp()
     {
-        StartCoroutine(CountdownUntilSober());
-    }
-
-    private Vector2 ApplyDrunkness(Vector2 direction)
-    {
-        if (isDrunk)
+        if (soberUpCoroutine != null)
         {
-            direction.x = direction.x * -1;
-            direction.y = direction.y * -1;
+            StopCoroutine(soberUpCoroutine);
         }
-
-        return direction;
+        
+        soberUpCoroutine = StartCoroutine(CountdownUntilSober());
     }
 
     IEnumerator CountdownUntilSober()
@@ -86,12 +168,25 @@ public class Corgi : MonoBehaviour
     private void SoberUp()
     {
         isDrunk = false;
-        corgiSpriteRenderer.sprite = SoberSprite;
+        isPlastered = false;
+        randomMoveCounter = 0;
+        ChangeToNormalSprite();
     }
 
-    public void FaceCorrectDirection(Vector2 direction)
+    private void ChangeToNormalSprite()
     {
-        if (direction.x > 0)
+        corgiSpriteRenderer.sprite = NormalSprite;
+    }
+    
+    private void ChangeToDrunkSprite()
+    {
+        corgiSpriteRenderer.sprite = DrunkSprite;
+    }
+    
+    private void FaceCorrectDirection(Vector2 direction) 
+    {
+        // If moving right
+        if (direction.x > 0) 
         {
             corgiSpriteRenderer.flipX = false;
         }
